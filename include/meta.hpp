@@ -49,6 +49,8 @@
 #include"sequence.hpp"
 #include"sequence_push_back.hpp"
 #include"size_type.hpp"
+#include"static_string.hpp"
+#include"static_string_to_sequence.hpp"
 #include"type_identity.hpp"
 #include"type_name.hpp"
 #include"void.hpp"
