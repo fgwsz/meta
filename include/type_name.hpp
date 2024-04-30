@@ -7,7 +7,7 @@
 #include"static_string_substr.hpp"
 namespace detail{
 template<typename _Type>
-consteval auto typename_helper()noexcept{
+consteval auto type_name_helper()noexcept{
 // gcc||clang||msvc with clang||mingw
 #if defined(__GUNC__)||defined(__clang__)|| \
     defined(__MINGW32__)||defined(__MINGW64__)
@@ -36,4 +36,4 @@ consteval auto typename_helper()noexcept{
 }
 }//namespace detail
 template<typename _Type>
-using typename_t=decltype(detail::typename_helper<_Type>());
+using type_name_t=decltype(detail::type_name_helper<_Type>());

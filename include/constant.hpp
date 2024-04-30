@@ -4,10 +4,10 @@ struct Constant{
     using type=Constant<_Type,_value>;
     using value_type=_Type;
     static constexpr value_type value=_value;
-    constexpr operator value_type()const noexcept{
+    constexpr operator value_type(void)const noexcept{
         return _value;
     }
-    constexpr value_type operator()()const noexcept{
+    constexpr value_type operator()(void)const noexcept{
         return _value;
     }
 };

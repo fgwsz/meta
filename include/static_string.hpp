@@ -16,8 +16,15 @@ struct CStr{
 }//namespace detail
 template<detail::CStr _c_str>
 struct StaticString{
-    static constexpr decltype(auto) value=(_c_str.value);
+    using value_type=decltype((_c_str.value));
+    static constexpr value_type value=(_c_str.value);
     using char_type=typename decltype(_c_str)::char_type;
     static constexpr size_type size=_c_str.size;
     static constexpr size_type length=_c_str.length;
+    constexpr operator value_type(void)const noexcept{
+        return this->value;
+    }
+    constexpr value_type operator()(void)const noexcept{
+        return this->value;
+    }
 };
