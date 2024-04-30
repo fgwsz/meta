@@ -1,29 +1,26 @@
 #pragma once
 #include"static_string.hpp"
-#include"index_sequence.hpp"
 #include"sequence.hpp"
-#include"declval.hpp"
 #include"make_index_sequence.hpp"
 namespace detail{
-template<
-    typename _TI_StaticString,
-    size_type... _indexs
->
-static consteval auto static_string_to_sequence_helper(
-    index_sequence<_indexs...>&&
-)noexcept
-->Sequence<
-    typename _TI_StaticString::char_type,
-    _TI_StaticString::value[_indexs]...
->;
-template<typename _TI_StaticString>
-static consteval auto static_string_to_sequence(void)noexcept
-->decltype(
-    static_string_to_sequence_helper<_TI_StaticString>(
-        declval<make_index_sequence_t<_TI_StaticString::length>>()
-    )
-);
+template<typename _TI_StaticString,typename _TI_index_sequence>
+struct StaticStringToSequenceHelper;
+template<typename _TI_StaticString,size_type... _indexs>
+struct StaticStringToSequenceHelper
+    <_TI_StaticString,Sequence<size_type,_indexs...>>{
+    using type=Sequence<
+        typename _TI_StaticString::char_type,
+        _TI_StaticString::value[_indexs]...
+    >;
+};
 }//namespace detail
 template<typename _TI_StaticString>
+struct StaticStringToSequence{
+    using type=typename detail::StaticStringToSequenceHelper<
+        _TI_StaticString,
+        make_index_sequence_t<_TI_StaticString::length>
+    >::type;
+};
+template<typename _TI_StaticString>
 using static_string_to_sequence_t=
-    decltype(detail::static_string_to_sequence<_TI_StaticString>());
+    typename StaticStringToSequence<_TI_StaticString>::type;
