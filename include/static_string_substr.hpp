@@ -1,31 +1,22 @@
 #pragma once
 #include"size_type.hpp"
 #include"static_string.hpp"
+#include"sequence.hpp"
 #include"index_sequence_plus_offset.hpp"
 #include"make_index_sequence.hpp"
 namespace detail{
+template<typename _TI_StaticString,typename _TI_index_sequence>
+struct StaticStringSubstrHelper;
 template<typename _TI_StaticString,size_type... _indexs>
-static consteval auto static_string_substr_helper(
-    Sequence<size_type,_indexs...>&&
-)noexcept
-->StaticString<
-    detail::CStr({
-        _TI_StaticString::value[_indexs]...,
-        typename _TI_StaticString::char_type{'\0'}
-    })
->;
-template<typename _TI_StaticString,size_type _pos,size_type _count>
-static consteval auto static_string_substr(void)noexcept
-->decltype(
-    static_string_substr_helper<_TI_StaticString>(
-        declval<
-            index_sequence_plus_offset_t<
-                make_index_sequence_t<_count>,
-                _pos
-            >
-        >()
-    )
-);
+struct StaticStringSubstrHelper
+    <_TI_StaticString,Sequence<size_type,_indexs...>>{
+    using type=StaticString<
+        detail::CStr({
+            _TI_StaticString::value[_indexs]...,
+            typename _TI_StaticString::char_type{'\0'}
+        })
+    >;
+};
 }//namespace detail
 template<
     typename _TI_StaticString,
@@ -42,9 +33,13 @@ private:
                     ?(_TI_StaticString::length-_pos)
                     :_count);
 public:
-    using type=decltype(
-        detail::static_string_substr<_TI_StaticString,_pos,count>()
-    );
+    using type=typename detail::StaticStringSubstrHelper<
+        _TI_StaticString,
+        index_sequence_plus_offset_t<
+            make_index_sequence_t<count>,
+            _pos
+        >
+    >::type;
 };
 template<
     typename _TI_StaticString,
