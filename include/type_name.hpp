@@ -5,9 +5,8 @@
 #include"static_string_find_first_not_of.hpp"
 #include"static_string_find_last_not_of.hpp"
 #include"static_string_substr.hpp"
-namespace detail{
 template<typename _Type>
-consteval auto type_name_helper()noexcept{
+consteval auto type_name()noexcept{
 // gcc||clang||msvc with clang||mingw
 #if defined(__GUNC__)||defined(__clang__)|| \
     defined(__MINGW32__)||defined(__MINGW64__)
@@ -34,6 +33,5 @@ consteval auto type_name_helper()noexcept{
         back_index_2::value-front_index_2::value+1
     >{};
 }
-}//namespace detail
 template<typename _Type>
-using type_name_t=decltype(detail::type_name_helper<_Type>());
+using type_name_t=decltype(type_name<_Type>());
