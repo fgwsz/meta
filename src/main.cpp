@@ -39,7 +39,7 @@ int main(int argc,char* argv[]){
         (ConstantAnd
             (IsArray int[])
             (IsArray int  ))
-        True)
+        False)
     */
     ::std::cout<<type_name<
         meta_function_invoke_t<
