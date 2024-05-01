@@ -35,19 +35,28 @@ int main(int argc,char* argv[]){
         conjunction_v<bool_constant<true>,bool_constant<false>>
     <<"\n";
     /*
-    (ConstantAnd
-        (IsArray int[])
-        (IsArray int  ))
+    (ConstEqualTo
+        (ConstantAnd
+            (IsArray int[])
+            (IsArray int  ))
+        True)
     */
     ::std::cout<<type_name<
-        MetaFunctionInvoke<
-            MetaFunction<ConstantAnd>
+        meta_function_invoke_t<
+            MetaFunction<ConstantEqualTo>
             ,MetaFunctionInvoke<
-                MetaFunction<IsArray>
-                ,TypeIdentity<int[]>>
-            ,MetaFunctionInvoke<
-                MetaFunction<IsArray>
-                ,TypeIdentity<int>>>::type
+                MetaFunction<ConstantAnd>
+                ,MetaFunctionInvoke<
+                    MetaFunction<IsArray>
+                    ,TypeIdentity<int[]>
+                >
+                ,MetaFunctionInvoke<
+                    MetaFunction<IsArray>
+                    ,TypeIdentity<int>
+                >
+            >
+            ,false_type
+        >
     >()<<"\n";
     return 0;
 }
