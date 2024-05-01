@@ -34,5 +34,20 @@ int main(int argc,char* argv[]){
     ::std::cout<<
         conjunction_v<bool_constant<true>,bool_constant<false>>
     <<"\n";
+    /*
+    (ConstantAnd
+        (IsArray int[])
+        (IsArray int  ))
+    */
+    ::std::cout<<type_name<
+        MetaFunctionInvoke<
+            MetaFunction<ConstantAnd>
+            ,MetaFunctionInvoke<
+                MetaFunction<IsArray>
+                ,TypeIdentity<int[]>>
+            ,MetaFunctionInvoke<
+                MetaFunction<IsArray>
+                ,TypeIdentity<int>>>::type
+    >()<<"\n";
     return 0;
 }

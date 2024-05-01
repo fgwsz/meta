@@ -60,6 +60,8 @@
 #include"is_void.hpp"
 #include"is_volatile.hpp"
 #include"make_index_sequence.hpp"
+#include"meta_function.hpp"
+#include"meta_function_invoke.hpp"
 #include"move.hpp"
 #include"negation.hpp"
 #include"rank.hpp"
