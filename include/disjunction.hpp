@@ -2,22 +2,22 @@
 #include"bool_constant.hpp"
 #include"conditional.hpp"
 // ||
-template<typename... _TI_BoolConstants>
+template<typename... _TI_BoolConstant_N>
 struct Disjunction
     :false_type
 {};
-template<typename _TI_BoolConstant0>
+template<typename _TI_BoolConstant_1>
 struct Disjunction
-    <_TI_BoolConstant0>:_TI_BoolConstant0
+    <_TI_BoolConstant_1>:_TI_BoolConstant_1::type
 {};
-template<typename _TI_BoolConstant0,typename... _TI_BoolConstantN>
+template<typename _TI_BoolConstant_1,typename... _TI_BoolConstant_N>
 struct Disjunction
-    <_TI_BoolConstant0,_TI_BoolConstantN...>:
+    <_TI_BoolConstant_1,_TI_BoolConstant_N...>:
     conditional_t<
-        bool(_TI_BoolConstant0::value),
-        _TI_BoolConstant0,
-        Disjunction<_TI_BoolConstantN...>
+        bool(_TI_BoolConstant_1::type::value),
+        typename _TI_BoolConstant_1::type,
+        Disjunction<_TI_BoolConstant_N...>
     >
 {};
-template<typename... _TI_BoolConstants>
-static constexpr bool disjunction_v=Disjunction<_TI_BoolConstants...>::value;
+template<typename... _TI_BoolConstant_N>
+static constexpr bool disjunction_v=Disjunction<_TI_BoolConstant_N...>::value;

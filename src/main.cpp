@@ -20,5 +20,19 @@ int main(int argc,char* argv[]){
     ::std::cout<<type_name<
         static_string_substr_t<StaticString<"01234">,1,3>
     >()<<"\n";
+    ::std::cout<<
+        disjunction_v<
+            bool_constant<true>,
+            bool_constant<false>,
+            Conditional<
+                false,
+                bool_constant<false>,
+                bool_constant<true>
+            >
+        >
+    <<"\n";
+    ::std::cout<<
+        conjunction_v<bool_constant<true>,bool_constant<false>>
+    <<"\n";
     return 0;
 }
