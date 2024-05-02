@@ -8,7 +8,7 @@ struct Conjunction
 {};
 template<typename _TI_BoolConstant_1>
 struct Conjunction
-    <_TI_BoolConstant_1>:_TI_BoolConstant_1::type
+    <_TI_BoolConstant_1>:_TI_BoolConstant_1
 {};
 template<typename _TI_BoolConstant_1,typename... _TI_BoolConstant_N>
 struct Conjunction
@@ -16,8 +16,8 @@ struct Conjunction
     conditional_t<
         bool(_TI_BoolConstant_1::type::value),
         Conjunction<_TI_BoolConstant_N...>,
-        typename _TI_BoolConstant_1::type
+        _TI_BoolConstant_1
     >
 {};
 template<typename... _TI_BoolConstant_N>
-static constexpr bool conjunction_v=Conjunction<_TI_BoolConstant_N...>::value;
+static constexpr bool conjunction_v=Conjunction<_TI_BoolConstant_N...>::type::value;

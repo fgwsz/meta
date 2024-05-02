@@ -1,50 +1,38 @@
 #pragma once
-#include"constant.hpp"
+#include"bool_constant.hpp"
 namespace detail{
 // decl
-template<
-    typename _TI_Constant_1
-    ,typename... _TI_Constant_N
->
+template<typename... _TI_Constant_N>
 struct ConstantAndHelper;
+// impl 0
+template<>
+struct ConstantAndHelper
+    <>:true_type
+{};
 // impl 1
-template<typename _TI_Constant_1>
+template<typename... _TI_Constant_N>
 struct ConstantAndHelper
-    <_TI_Constant_1>{
-    using type=_TI_Constant_1;
-};
+    <true_type,_TI_Constant_N...>
+    :ConstantAndHelper<_TI_Constant_N...>
+{};
 // impl 2
-template<
-    typename _TI_Constant_1
-    ,typename _TI_Constant_2
-    ,typename... _TI_Constant_N
->
+template<typename... _TI_Constant_N>
 struct ConstantAndHelper
-    <_TI_Constant_1,_TI_Constant_2,_TI_Constant_N...>{
-private:
-    static constexpr auto value=
-        _TI_Constant_1::type::value&&_TI_Constant_2::type::value;
-    using value_type=decltype(value);
-    using current_result=Constant<value_type,value>;
-public:
-    using type=typename ConstantAndHelper<
-        current_result
-        ,_TI_Constant_N...
-    >::type;
-};
+    <false_type,_TI_Constant_N...>:false_type
+{};
 }//namespace detail
 template<
     typename _TI_Constant_1,
     typename _TI_Constant_2,
     typename... _TI_Constant_N
 >
-struct ConstantAnd{
-    using type=typename detail::ConstantAndHelper<
-        _TI_Constant_1
-        ,_TI_Constant_2
-        ,_TI_Constant_N...
-    >::type;
-};
+struct ConstantAnd
+    :detail::ConstantAndHelper<
+        typename _TI_Constant_1::type
+        ,typename _TI_Constant_2::type
+        ,typename _TI_Constant_N::type...
+    >
+{};
 template<
     typename _TI_Constant_1,
     typename _TI_Constant_2,

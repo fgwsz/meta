@@ -1,12 +1,8 @@
 #pragma once
-#include"constant.hpp"
+#include"auto_constant.hpp"
 template<typename _TI_Constant>
-struct ConstantNot{
-private:
-    static constexpr auto value=!_TI_Constant::type::value;
-    using value_type=decltype(value);
-public:
-    using type=Constant<value_type,value>;
-};
+struct ConstantNot
+    :auto_constant<!_TI_Constant::type::value>
+{};
 template<typename _TI_Constant>
 using constant_not_t=typename ConstantNot<_TI_Constant>::type;

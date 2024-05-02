@@ -36,27 +36,41 @@ int main(int argc,char* argv[]){
     <<"\n";
     /*
     (ConstEqualTo
-        (ConstantAnd
+        (ConstantOr
             (IsArray int[])
             (IsArray int  ))
-        False)
+        True)
     */
-    ::std::cout<<type_name<
-        meta_function_invoke_t<
-            MetaFunction<ConstantEqualTo>
-            ,MetaFunctionInvoke<
-                MetaFunction<ConstantAnd>
-                ,MetaFunctionInvoke<
-                    MetaFunction<IsArray>
-                    ,TypeIdentity<int[]>
-                >
-                ,MetaFunctionInvoke<
-                    MetaFunction<IsArray>
-                    ,TypeIdentity<int>
-                >
-            >
-            ,false_type
-        >
-    >()<<"\n";
+    using namespace scheme;
+    ::std::cout<<type_name<typename 
+        _<f<ConstantEqualTo>
+            ,_<f<ConstantOr>
+                ,_<f<IsArray>,t<int[]>>
+                ,_<f<IsArray>,t<int>>>
+            ,true_type>
+    ::type>()<<"\n";
     return 0;
 }
+/*(IfElse 
+    (> number 0)
+    number
+    (- number))
+*/
+/*(
+    (IfThenElse 
+        (> number 0)
+        TypeIdentity
+        -) 
+    number)
+*/
+using namespace scheme;
+template<auto number>
+struct Abs:
+_<
+    _<f<IfThenElse>
+        ,_<f<ConstantGreater>,c<number>,c<0>>
+        ,f<TypeIdentity>
+        ,f<ConstantNegate>>
+    ,c<number>>
+{};
+using abs_of_pi=typename Abs<-3.14>::type;

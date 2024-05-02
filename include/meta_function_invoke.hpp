@@ -4,7 +4,7 @@ template<
     ,typename... _Arguments
 >
 struct MetaFunctionInvoke{
-    using type=typename _TI_MetaFunction::template apply<
+    using type=typename _TI_MetaFunction::type::template apply<
         typename _Arguments::type...
     >::type;
 };

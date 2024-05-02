@@ -1,13 +1,12 @@
 #pragma once
-#include"constant.hpp"
+#include"auto_constant.hpp"
 template<typename _TI_Constant_1,typename _TI_Constant_2>
 struct ConstantShiftRight{
 private:
     static constexpr auto value=
         _TI_Constant_1::type::value<<_TI_Constant_2::type::value;
-    using value_type=decltype(value);
 public:
-    using type=Constant<value_type,value>;
+    using type=auto_constant<value>;
 };
 template<typename _TI_Constant_1,typename _TI_Constant_2>
 using constant_shift_right_t=typename ConstantShiftRight<
